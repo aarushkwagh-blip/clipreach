@@ -1,0 +1,16 @@
+{
+  "name": "clipreach",
+  "owner": {
+    "name": "aarushkwagh-blip"
+  },
+  "plugins": [
+    {
+      "name": "clipreach",
+      "source": "./",
+      "description": "Local captioned video clips"
+    }
+  ],
+  "metadata": {
+    "description": "ClipReach local video clipping plugin"
+  }
+}

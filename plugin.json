@@ -1,0 +1,20 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "clipreach",
+  "version": "0.2.0",
+  "description": "Make captioned video clips with your agent and local tools.",
+  "author": {"name": "aarushkwagh-blip"},
+  "repository": "https://github.com/aarushkwagh-blip/clipreach",
+  "license": "MIT",
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "ClipReach",
+        "shortDescription": "Captioned video clips",
+        "longDescription": "Your agent selects moments, transcribes locally, and renders vertical video clips using FFmpeg. Requires a local command-capable agent and processing tools.",
+        "developerName": "aarushkwagh-blip",
+        "defaultPrompt": "Use ClipReach to turn this video into three captioned vertical clips. Set up missing local dependencies with my permission, then deliver the MP4 files."
+      }
+    }
+  }
+}

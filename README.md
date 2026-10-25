@@ -17,51 +17,55 @@ This is an independent project inspired by the video-repurposing workflow of ser
 
 There is no required paid model API and no ClipReach subscription. Your host AI agent may have its own cost; rendering uses your hardware and transcription takes time. Model weights download on first use. This is a local editing workflow, not a cloud video-processing service.
 
-## Install the skill
+## Install as a plugin, extension, or skill
 
-[Download the skill ZIP](https://github.com/aarushkwagh-blip/clipreach/releases/latest/download/clipreach.zip), or use the source folder below. Extract it into your agent's skills directory; an attachment alone still needs an environment that can execute the scripts.
+**[Installation instructions for all supported agents](INSTALL.md)** — Codex and Claude Code plugins, a Gemini CLI extension, and native skills for OpenCode and Antigravity.
 
-The portable skill is [`skills/clipreach`](skills/clipreach). It contains the instructions and Python script together. Copy that entire folder, not just `SKILL.md`.
+Give your agent this repository link and say:
 
-For Codex, put it in `~/.codex/skills/clipreach`. For Claude Code, put it in `~/.claude/skills/clipreach` or your project's `.claude/skills/clipreach`. Other agents can read `SKILL.md` and use the script if they support shell commands and local files. Merely attaching the Markdown file to a chat-only AI will not give it video-processing capability.
+> Install ClipReach for this agent using INSTALL.md, then clip this video: VIDEO_URL
 
-Clone the repository first:
+The agent can handle installation and first-run setup when its permissions allow it. It still needs command execution, FFmpeg, and permission to download processing dependencies. Chat-only assistants cannot run these local tools just by reading a link.
 
-```sh
-git clone https://github.com/aarushkwagh-blip/clipreach.git
-cd clipreach
-```
-
-From that checkout:
+For Codex:
 
 ```sh
-# Codex (use a new destination; don't replace an existing skill accidentally)
-mkdir -p ~/.codex/skills
-cp -R skills/clipreach ~/.codex/skills/
+codex plugin marketplace add https://github.com/aarushkwagh-blip/clipreach.git
+codex plugin add clipreach@clipreach
 ```
 
-Restart or reload your agent's skills, then ask:
+For Claude Code:
 
-> Use ClipReach to turn this video into three 30–60 second clips with captions. Choose moments that work on their own, and save the MP4s locally.
+```sh
+claude plugin marketplace add aarushkwagh-blip/clipreach
+claude plugin install clipreach@clipreach
+```
+
+For Gemini CLI:
+
+```sh
+gemini extensions install https://github.com/aarushkwagh-blip/clipreach
+```
+
+For OpenCode or Antigravity, clone this repository and run `python3 install.py --agent opencode` or `python3 install.py --agent antigravity`.
+
+Download **[the plugin ZIP](https://github.com/aarushkwagh-blip/clipreach/releases/latest/download/clipreach-plugin.zip)** for the complete installable package, or **[the skill ZIP](https://github.com/aarushkwagh-blip/clipreach/releases/latest/download/clipreach.zip)** for a standalone skill folder. The packages share one clipping engine. These are GitHub distributions, not claims of acceptance into any official plugin store.
+
+After installation, select the skill/plugin and ask:
+
+> Use ClipReach to turn this video into three captioned vertical clips. Set up missing local dependencies with my permission, then give me the MP4s.
 
 ## Install processing tools once
 
-Use Python 3.10+ and an FFmpeg build with libass, libx264, and AAC support.
+Use Python 3.10+ and an FFmpeg build with libass, libx264, and AAC support. The installed skill's `scripts/setup.py --install` creates an isolated Python environment and prints the interpreter to use. See [setup instructions](INSTALL.md#processing-runtime).
+
+For development from a checkout, a project venv also works:
 
 ```sh
-# macOS
-brew install ffmpeg
-# Ubuntu/Debian (instead of Homebrew)
-# sudo apt-get update && sudo apt-get install ffmpeg python3-venv
-
 python3 -m venv .venv
 .venv/bin/python -m pip install -r requirements.txt
 .venv/bin/python skills/clipreach/scripts/clipreach.py doctor
 ```
-
-On Windows, install FFmpeg from a trusted distribution, add its `bin` directory to PATH, and use `.venv\Scripts\python.exe` instead of `.venv/bin/python`. The script uses argument arrays, not shell command strings.
-
-Rendering with an existing transcript only needs Python and FFmpeg; both Python packages are optional. A copied skill can install its optional packages with `python -m pip install 'av<19' faster-whisper yt-dlp` in the environment used by the agent.
 
 ## The actual workflow
 
@@ -97,6 +101,6 @@ The scripts perform transcription and rendering locally after downloading source
 python3 -m unittest discover -s tests -v
 ```
 
-Unit tests cover timestamp validation and caption generation. FFmpeg integration tests generate their own synthetic media and check actual video output; they skip if the required tools are unavailable. They do not download third-party videos or speech models.
+Tests cover timestamp validation, captions, agent installation, runtime setup checks, and distributable packages. FFmpeg integration tests generate their own synthetic media and check actual video output; they skip if the required tools are unavailable. They do not download third-party videos or speech models.
 
 Primary dependencies: [FFmpeg](https://ffmpeg.org/), [faster-whisper](https://github.com/SYSTRAN/faster-whisper), and [yt-dlp](https://github.com/yt-dlp/yt-dlp). Each has its own license and installation requirements.

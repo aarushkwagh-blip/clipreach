@@ -11,7 +11,9 @@ Resolve `scripts/clipreach.py` relative to this skill's directory, never the use
 
 ## Get the source ready
 
-Run `python3 <skill>/scripts/clipreach.py doctor`. FFmpeg needs libass and libx264. Optional packages are `faster-whisper` (local speech recognition) and `yt-dlp` (URL download). If prerequisites are missing, explain exactly what is needed and follow the host's installation permissions. For a copied skill, install into the agent's Python environment with `python -m pip install 'av<19' faster-whisper yt-dlp`. PyAV 19 is incompatible with faster-whisper 1.2.1's decoder. Do not assume optional packages exist.
+On first use, run `python3 <skill>/scripts/setup.py`. If no runtime exists, run the same helper with `--install` after following the host's package-installation permissions. It creates an isolated environment at `~/.local/share/clipreach/venv`; use `--runtime /writable/path/venv` if needed. It never changes system Python or installs system packages. If FFmpeg is missing, use the host-approved package manager to install it with libass/libx264, then rerun setup. Do not bypass host approval prompts.
+
+The helper returns JSON with `python` and `script` absolute paths. Use that exact interpreter for every command below instead of bare `python3`. This also works when the plugin directory is read-only. No API keys or clipping-service login are needed. A source and accurate timestamped transcript can alternatively be rendered with system Python and FFmpeg without installing the optional Python packages.
 
 Use a local video when supplied. For a user-provided link, run:
 

@@ -1,0 +1,7 @@
+{
+  "name": "clipreach",
+  "version": "0.2.0",
+  "description": "Create captioned vertical video clips with local tools.",
+  "author": {"name": "aarushkwagh-blip"},
+  "skills": "./skills/"
+}

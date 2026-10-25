@@ -1,0 +1,5 @@
+# Optional: rendering an existing transcript needs neither Python package.
+# PyAV 19 removed an API used by faster-whisper 1.2.1.
+av>=11,<19
+faster-whisper>=1.2,<2
+yt-dlp>=2026.1.1
