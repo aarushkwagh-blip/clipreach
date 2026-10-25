@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+.venv/
+.env
+.env.*
+.DS_Store
+._*
+work/
+output/
+*.mp4
+*.mov
+*.mkv
+*.webm
+*.wav
+*.mp3
+dist/
